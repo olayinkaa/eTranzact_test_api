@@ -131,7 +131,7 @@
         "get":{
           "tags": ["CategoryController"],
           "summary": "API endpoint to retrieve product category",
-          "description" : "Find product category from the database",
+          "description" : "Find product categories from the database",
           "produces" : ["application/json"],
           "parameters":[
             {
@@ -158,7 +158,7 @@
       "/category/{id}":{
         "parameters":[
           {
-            "name" : "id",
+             "name" : "id",
              "in": "path",
              "required": "true",
              "description": "id of the song",
@@ -174,15 +174,15 @@
          }
        ],
        "get":{
-          "tags": ["Songs"],
-          "summary": "API Endpoint to find single Song",
-          "description" : "Find one from the database",
+          "tags": ["CategoryController"],
+          "summary": "API Endpoint to find single product category",
+          "description" : "Find one category from the database",
           "produces" : ["application/json"],
           "responses":{
             "200":{
-              "description" : "Song has found",
+              "description" : "Category found",
               "schema": {
-              "$ref" : "#definitions/Song"
+              "$ref" : "#definitions/Category"
               }
             }
           }
