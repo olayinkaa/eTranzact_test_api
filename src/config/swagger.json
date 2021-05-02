@@ -1,0 +1,386 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "version": "1.0.0", 
+      "title": "ETRANZACT ECOMMERCE TEST APIs",
+      "description": "eTranzact test apis for frontend roles",
+      "license": {
+        "name": "MIT",
+        "url": "https://opensource.org/licenses/MIT"
+      }
+    },
+    "host": "localhost:12000",
+    "basePath": "/api/etz",
+    "tags": [
+      {
+        "name": "CategoryController",
+        "description": "API for categories in the system"
+      },
+      {
+        "name": "ProductController",
+        "description": "API for products in the system"
+      },
+      {
+        "name": "UserController",
+        "description": "API for users in the system"
+      }
+    ],
+    "schemes": ["http","https"],
+    "consumes": ["application/json"],
+    "produces": ["application/json"],
+    "paths":{
+      "/user":{
+        "get":{
+          "tags": ["UserController"],
+          "summary": "API Endpoint to find all Users",
+          "description" : "Find all Users from the database",
+          "produces" : ["application/json"],
+          "responses":{
+            "200":{
+              "description" : "Query all Users",
+              "schema": {
+                "type":"array",
+                "items":{
+                  "$ref" : "#/definitions/User"
+                }
+              }
+            }
+          }
+        }
+      },
+      "/user/auth":{
+        "get":{
+          "tags": ["UserController"],
+          "summary": "API Endpoint to find auth User",
+          "description" : "Find Authenticated User from the database",
+          "produces" : ["application/json"],
+          "parameters":[
+            {
+              "name": "authorization",
+              "description": "Access token to authorize the user",
+              "in": "header",
+              "type": "string",
+              "required": false
+            }
+          ],
+          "responses":{
+            "200":{
+              "description" : "Authenticated User Details",
+              "schema": {
+               "$ref" : "#/definitions/UserResp"
+              }
+            }
+          }
+        }
+      },
+      "/user/login":{
+        "post":{
+          "tags": ["UserController"],
+          "summary": "API Endpoint to get Token",
+          "description" : "Retrieve access token",
+          "parameters":[
+            {
+              "name": "User",
+              "description": "User login",
+              "in": "body",
+              "required": "true",
+              "schema" : {
+                "$ref" : "#/definitions/UserLogin"
+              }
+            }
+          ],
+          "produces" : ["application/json"],
+           "responses":{
+              "200":{
+                "description" : "New user has loggedIn",
+                "schema": {
+                 "$ref" : "#/definitions/UserLoginResponse"
+                }
+              }
+            }
+          }
+      },
+      "/user/register":{
+        "post":{
+          "tags": ["UserController"],
+          "summary": "API endpoint to register new user",
+          "description" : "Register new system user",
+          "parameters":[
+            {
+              "name": "User",
+              "description": "User login",
+              "in": "body",
+              "required": "true",
+              "schema" : {
+                "$ref" : "#/definitions/UserRequest"
+              }
+            }
+          ],
+          "produces" : ["application/json"],
+           "responses":{
+              "200":{
+                "description" : "New user successfully created",
+                "schema": {
+                 "$ref" : "#/definitions/UserResponse"
+                }
+              }
+            }
+        }
+      },
+      "/category":{
+        "get":{
+          "tags": ["CategoryController"],
+          "summary": "API endpoint to retrieve product category",
+          "description" : "Find product category from the database",
+          "produces" : ["application/json"],
+          "parameters":[
+            {
+              "name": "authorization",
+              "description": "Access token to authorize the user",
+              "in": "header",
+              "type": "string",
+              "required": false
+            }
+          ],
+          "responses":{
+            "200":{
+              "description" : "Successfully retrieved product categories",
+              "schema": {
+                "type":"array",
+                "items":{
+                  "$ref" : "#/definitions/Category"
+                }
+              }
+            }
+          }
+        }
+      },
+      "/category/{id}":{
+        "parameters":[
+          {
+            "name" : "id",
+             "in": "path",
+             "required": "true",
+             "description": "id of the song",
+             "type": "string"
+
+          },
+          {
+           "name": "authorization",
+           "description": "Access token to authorize the user",
+           "in": "header",
+           "type": "string",
+           "required": true
+         }
+       ],
+       "get":{
+          "tags": ["Songs"],
+          "summary": "API Endpoint to find single Song",
+          "description" : "Find one from the database",
+          "produces" : ["application/json"],
+          "responses":{
+            "200":{
+              "description" : "Song has found",
+              "schema": {
+              "$ref" : "#definitions/Song"
+              }
+            }
+          }
+       }
+      }
+    },
+    "definitions":{
+        "UserRequest":{
+            "properties":{
+                "name":{
+                  "type":"string"
+                },
+                "username":{
+                  "type":"string"
+                },
+                "email":{
+                  "type":"string"
+                },
+                "password":{
+                  "type":"string"
+                },
+                "gender":{
+                  "type":"string"
+                },
+                "contactInfo": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "address": {
+                        "type": "string"
+                      },
+                      "phoneNumber": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+            }
+        },
+        "UserResponse":{
+            "properties":{
+                "_id":{
+                  "type":"string"
+                },
+                "name":{
+                  "type":"string"
+                },
+                "username":{
+                  "type":"string"
+                },
+                "email":{
+                  "type":"string"
+                },
+                "gender":{
+                  "type":"string"
+                },
+                "contactInfo": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "address": {
+                        "type": "string"
+                      },
+                      "phoneNumber": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+            }
+        },
+        "User":{
+            "required": ["name","username", "email", "password","gender"],
+            "properties":{
+                "_id":{
+                  "type":"string"
+                },
+                "name":{
+                  "type":"string"
+                },
+                "username":{
+                  "type":"string"
+                },
+                "email":{
+                  "type":"string"
+                },
+                "password":{
+                  "type":"string"
+                },
+                "gender":{
+                  "type":"string"
+                },
+                "contactInfo": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "address": {
+                        "type": "string"
+                      },
+                      "phoneNumber": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+            }
+        },
+        "Category":{
+            "required":["name"],
+            "properties":{
+              "_id":{
+                "type":"string"
+              },
+              "name":{
+                "type":"string"
+              }
+            }
+        },
+        "Product":{
+          "required":["productName"],
+          "properties":{
+            "productName":{
+              "type":"string"
+            },
+            "productImageUrl":{
+              "type":"string"
+            },
+            "productDescription":{
+              "type":"string"
+            },
+            "bestSeller":{
+              "type":"boolean"
+            },
+            "hotSale":{
+              "type":"number"
+            },
+            "productQuantity":{
+              "type":"number"
+            },
+            "socialMedia": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "url": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "user":{
+              "type":"array",
+              "items": {
+                "type": "string",
+                "properties": {
+                  "_id": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "productCategory":{
+              "type":"array",
+              "items": {
+                "type": "string",
+                "properties": {
+                  "_id": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+      },
+      "UserLogin":{
+        "required":["email","password"],
+        "type": "string",
+        "properties":{
+          "email":{
+            "type":"string"
+          },
+          "password":{
+            "type":"string"
+          }
+        }
+      },
+      "UserLoginResponse":{
+        "properties":{
+          "token": {
+            "type" : "string"
+          }
+        }
+      }
+    }
+  }

@@ -12,6 +12,10 @@ const ProductSchema = new Schema({
         type:String,
         required:true
     },
+    productImageUrl:{
+        type:String,
+        required:true
+    },
     productDescription:{
         type:String,
         required:true
