@@ -37,7 +37,7 @@ const categoryController = {
         try {
             const { value, error } = CategoryService.validateRequestBody(req.body);
             if(error) return res.status(400).json({error})
-            let category = await new Category({
+            let category = new Category({
                 name:value.name
             });
             category = await category.save();
