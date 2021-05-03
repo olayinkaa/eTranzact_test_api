@@ -1,7 +1,7 @@
-import express from 'express';
-import CategoryRoute from './CategoryRoute.js';
-import ProductRoute from './ProductRoute.js';
-import UserRoute from './UserRoute.js';
+const express = require('express');
+const CategoryRoute = require('./CategoryRoute.js');
+const ProductRoute = require('./ProductRoute.js');
+const UserRoute = require('./UserRoute.js');
 
 const restRouter = express.Router();
 
@@ -9,5 +9,4 @@ restRouter.use('/category',CategoryRoute);
 restRouter.use('/product',ProductRoute);
 restRouter.use('/user',UserRoute);
 
-
-export default restRouter;
+module.exports = restRouter;

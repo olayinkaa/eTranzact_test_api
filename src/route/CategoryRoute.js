@@ -1,6 +1,7 @@
-import express from 'express';
-import categoryController from '../controller/CategoryController.js';
-import auth from '../middlewares/auth.js';
+const express = require('express');
+const categoryController = require('../controller/CategoryController.js');
+const auth = require('../middlewares/auth.js');
+
 const Router = express.Router();
 
 Router.get('/',auth,categoryController.getAllCategory);
@@ -10,4 +11,4 @@ Router.put('/:catId',categoryController.updateCategory);
 Router.delete('/:catId',categoryController.removeCategoryById);
 
 
-export default Router;
+module.exports = Router;

@@ -1,7 +1,7 @@
-import Joi from 'joi';
-import bcrypt from 'bcryptjs';
+const Joi = require('joi');
+const bcrypt = require('bcryptjs');
 
-export default {
+module.exports = {
     validateRequestBody: (requestBody) =>{
         const schema = Joi.object().keys({
             name: Joi.string().required(),
