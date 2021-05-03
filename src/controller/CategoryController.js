@@ -1,5 +1,5 @@
-import Category from '../model/Category.js';
-import CategoryService from '../service/category.service.js';
+const  Category = require('../model/Category.js');
+const CategoryService = require('../service/category.service.js');
 
 const categoryController = {
     getAllCategory: async (req,res) => {
@@ -28,7 +28,7 @@ const categoryController = {
        } catch (error) {
             console.log(error)
             if (error.kind == 'ObjectId') {
-                return res.status(400).json({ error: 'Category not found' });
+                return res.status(400).json({ error: 'Invalid product ID' });
             }
             return res.status(500).send(error);
        }
@@ -88,4 +88,4 @@ const categoryController = {
     }
 }
 
-export default categoryController;
+module.exports = categoryController;

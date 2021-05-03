@@ -15,3 +15,5 @@ const CategorySchema = new Schema({
 //     message: 'Error, expected {PATH} to be unique.'
 // })
 export default model('category',CategorySchema)
+
+// "type": "module",

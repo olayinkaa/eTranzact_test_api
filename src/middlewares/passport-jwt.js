@@ -1,12 +1,12 @@
-import Passport from 'passport';
-import PassportJWT from 'passport-jwt';
-import User from '../model/User.js';
-import dotenv from 'dotenv';
+const Passport = require('passport');
+const PassportJWT = require('passport-jwt');
+const User = require('../model/User.js');
+const dotenv = require('dotenv')
 
 dotenv.config();
 const secret = process.env.SECRET;
 
-export const configJWTStrategy = () => {
+exports.configJWTStrategy = () => {
   const opts = {
     jwtFromRequest: PassportJWT.ExtractJwt.fromAuthHeaderAsBearerToken(),
     secretOrKey: secret,
@@ -25,3 +25,5 @@ export const configJWTStrategy = () => {
     })
   );
 };
+
+

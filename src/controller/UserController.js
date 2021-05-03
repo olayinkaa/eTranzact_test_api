@@ -1,6 +1,6 @@
-import User from '../model/User.js';
-import UserService from '../service/user.service.js';
-import jwt from '../helpers/jwt.js'
+const User = require('../model/User.js');
+const UserService = require('../service/user.service.js');
+const jwt = require('../helpers/jwt.js')
 
 const userController = {
     getAllUsers: async (req,res)=>{
@@ -88,4 +88,4 @@ const userController = {
     }
 }
 
-export default userController;
+module.exports = userController;

@@ -1,14 +1,12 @@
-import express from 'express';
-import connectDB from './src/config/db.js';
-import dotenv  from "dotenv";
-import restRouter from './src/route/index.js'
-import passport from 'passport';
-import {configJWTStrategy} from './src/middlewares/passport-jwt.js'
-import swaggerUi from 'swagger-ui-express';
-import { createRequire } from 'module';
-const require = createRequire(import.meta.url);
+const express = require('express');
+const connectDB = require('./src/config/db.js');
+const dotenv = require("dotenv");
+const restRouter = require('./src/route/index.js');
+const passport = require('passport');
+const {configJWTStrategy} = require('./src/middlewares/passport-jwt.js');
+const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require("./src/config/swagger.json")
-
+const logger = require('morgan');
 // import swaggerDocument from "./src/config/swagger.json";
 
 dotenv.config();
@@ -19,6 +17,9 @@ connectDB();
 const app = express();
 app.use(express.json({ extended: false}));
 
+if (process.env.NODE_ENV === 'development') {
+  app.use(logger('dev'));
+}
 app.use(passport.initialize()); // req.user
 configJWTStrategy();
 app.use('/api/etz',restRouter);

@@ -1,6 +1,6 @@
-import Joi from 'joi';
+const Joi = require('joi');
 
-export default {
+module.exports = {
     validateRequestBody: (requestBody) =>{
         const schema = Joi.object().keys({
             name: Joi.string().required()
