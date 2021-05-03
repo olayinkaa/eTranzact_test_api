@@ -153,6 +153,31 @@
               }
             }
           }
+        },
+        "post":{
+          "tags": ["CategoryController"],
+          "summary": "API endpoint to create new product category",
+          "description" : "Create product category into the database",
+          "produces" : ["application/json"],
+          "parameters":[
+            {
+              "name": "Category",
+              "description": "Create category",
+              "in": "body",
+              "required": "true",
+              "schema" : {
+                "$ref" : "#/definitions/CategoryRequest"
+              }
+            }
+          ],
+           "responses":{
+              "200":{
+                "description" : "Product category successfully created",
+                "schema": {
+                 "$ref" : "#/definitions/Category"
+                }
+              }
+            }
         }
       },
       "/category/{id}":{
@@ -161,7 +186,7 @@
              "name" : "id",
              "in": "path",
              "required": "true",
-             "description": "id of the song",
+             "description": "id of the product category",
              "type": "string"
 
           },
@@ -187,6 +212,47 @@
             }
           }
        }
+      },
+      "/product":{
+        "get":{
+          "tags": ["ProductController"],
+          "summary": "API endpoint to retrieve products",
+          "description" : "GET all products from the database",
+          "produces" : ["application/json"],
+          "responses":{
+            "200":{
+              "description" : "Retrieve all products",
+              "schema": {
+               "$ref" : "#/definitions/ProductResponse"
+              }
+            }
+        }
+        },
+        "post":{
+          "tags": ["ProductController"],
+          "summary": "API endpoint to create new product category",
+          "description" : "Create product category into the database",
+          "produces" : ["application/json"],
+          "parameters":[
+            {
+              "name": "Product",
+              "description": "Create Product",
+              "in": "body",
+              "required": "true",
+              "schema" : {
+                "$ref" : "#/definitions/Product"
+              }
+            }
+          ],
+           "responses":{
+              "200":{
+                "description" : "Product category successfully created",
+                "schema": {
+                 "$ref" : "#/definitions/Product"
+                }
+              }
+          }
+        }
       }
     },
     "definitions":{
@@ -304,6 +370,14 @@
               }
             }
         },
+        "CategoryRequest":{
+            "required":["name"],
+            "properties":{
+              "name":{
+                "type":"string"
+              }
+            }
+        },
         "Product":{
           "required":["productName"],
           "properties":{
@@ -315,6 +389,17 @@
             },
             "productDescription":{
               "type":"string"
+            },
+            "productCategoryId": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  }
+                }
+              }
             },
             "bestSeller":{
               "type":"boolean"
@@ -340,25 +425,61 @@
               }
             },
             "user":{
-              "type":"array",
+              "type":"string"
+            }
+          }
+      },
+        "ProductResponse":{
+          "required":["productName"],
+          "properties":{
+            "productName":{
+              "type":"string"
+            },
+            "productImageUrl":{
+              "type":"string"
+            },
+            "productDescription":{
+              "type":"string"
+            },
+            "productCategoryId": {
+              "type": "array",
               "items": {
-                "type": "string",
+                "type": "object",
                 "properties": {
-                  "_id": {
+                  "name": {
                     "type": "string"
                   }
                 }
               }
             },
-            "productCategory":{
-              "type":"array",
+            "bestSeller":{
+              "type":"boolean"
+            },
+            "hotSale":{
+              "type":"number"
+            },
+            "productQuantity":{
+              "type":"number"
+            },
+            "socialMedia": {
+              "type": "array",
               "items": {
-                "type": "string",
+                "type": "object",
                 "properties": {
-                  "_id": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "url": {
                     "type": "string"
                   }
                 }
+              }
+            },
+            "user": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "$ref":"#/definitions/UserResponse"
               }
             }
           }
