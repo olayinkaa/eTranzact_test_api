@@ -6,7 +6,7 @@ module.exports = {
             productName: Joi.string().required(),
             productImageUrl: Joi.string().required(),
             productDescription: Joi.string().required(),
-            productCategoryId: Joi.array().required(),
+            category: Joi.array().required(),
         })
         const { value, error } = Joi.validate(requestBody, schema,{ abortEarly: false ,allowUnknown: true });
         if (error && error.details) {

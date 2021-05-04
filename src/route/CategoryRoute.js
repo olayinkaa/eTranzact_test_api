@@ -8,7 +8,7 @@ Router.get('/',auth,categoryController.getAllCategory);
 Router.get('/:catId',categoryController.getCategoryById);
 Router.post('/',categoryController.addCategory);
 Router.put('/:catId',categoryController.updateCategory);
-Router.delete('/:catId',categoryController.removeCategoryById);
+Router.delete('/:catId',auth,categoryController.removeCategoryById);
 
 
 module.exports = Router;

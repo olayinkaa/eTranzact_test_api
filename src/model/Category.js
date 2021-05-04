@@ -6,7 +6,12 @@ const CategorySchema = new Schema({
         type:String,
         required:true,
         unique:true
+    },
+    description:{
+        type:String,
+        required:true,
+        unique:true
     }
 })
 
-module.exports = model('Category',CategorySchema)
+module.exports = model('category',CategorySchema)

@@ -4,7 +4,7 @@ const CategoryService = require('../service/category.service.js');
 const categoryController = {
     getAllCategory: async (req,res) => {
         try {
-            const categories = await Category.find({}).select("name");
+            const categories = await Category.find({}).select('-__v');
             if(!categories) return res.status(404).json({error:"categories not found"});
             return res.status(200).json({
                 status:200,
@@ -18,7 +18,7 @@ const categoryController = {
     },
     getCategoryById: async (req,res)=> {
        try {
-        const category = await Category.findById(req.params.catId).select(['name']);
+        const category = await Category.findById(req.params.catId).select('-__v');
         if(!category) return res.status(404).json({error:"categories not found"});
         return res.status(200).json({
             status:200,
@@ -37,9 +37,7 @@ const categoryController = {
         try {
             const { value, error } = CategoryService.validateRequestBody(req.body);
             if(error) return res.status(400).json({error})
-            let category = new Category({
-                name:value.name
-            });
+            let category = new Category(value);
             category = await category.save();
             return res.status(200).json({
                 status:200,

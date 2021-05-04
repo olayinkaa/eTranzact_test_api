@@ -67,7 +67,7 @@
             "200":{
               "description" : "Authenticated User Details",
               "schema": {
-               "$ref" : "#/definitions/UserResp"
+               "$ref" : "#/definitions/UserResponse"
               }
             }
           }
@@ -196,7 +196,7 @@
            "in": "header",
            "type": "string",
            "required": true
-         }
+          }
        ],
        "get":{
           "tags": ["CategoryController"],
@@ -211,9 +211,48 @@
               }
             }
           }
-       }
+       },
+       "delete":{
+          "tags": ["CategoryController"],
+          "summary": "API Endpoint to delete the category",
+          "description" : "Delete category from the database",
+          "produces" : ["application/json"],
+          "responses":{
+            "200":{
+              "description" : "Category has deleted",
+              "schema": {
+              "$ref" : "#definitions/Category"
+              }
+            }
+          }
+        },
+        "put":{
+          "tags": ["CategoryController"],
+          "summary": "API Endpoint for update Category",
+          "description" : "Update the existing Category in database",
+          "parameters":[
+            {
+              "name": "Category",
+              "description": "Category params to update the category",
+              "in": "body",
+              "schema" : {
+                "$ref" : "#definitions/CategoryRequest"
+              }
+            }
+          ],
+          "produces" : ["application/json"],
+          "responses":{
+            "200":{
+              "description" : "Category has Updated",
+              "schema": {
+               "$ref" : "#definitions/Category"
+              }
+            }
+          }
+        }
       },
       "/product":{
+        
         "get":{
           "tags": ["ProductController"],
           "summary": "API endpoint to retrieve products",
@@ -240,7 +279,7 @@
               "in": "body",
               "required": "true",
               "schema" : {
-                "$ref" : "#/definitions/Product"
+                "$ref" : "#/definitions/ProductRequest"
               }
             }
           ],
@@ -367,6 +406,9 @@
               },
               "name":{
                 "type":"string"
+              },
+              "description":{
+                "type":"string"
               }
             }
         },
@@ -374,6 +416,9 @@
             "required":["name"],
             "properties":{
               "name":{
+                "type":"string"
+              },
+              "description":{
                 "type":"string"
               }
             }
@@ -390,7 +435,7 @@
             "productDescription":{
               "type":"string"
             },
-            "productCategoryId": {
+            "categories": {
               "type": "array",
               "items": {
                 "type": "string",
@@ -429,7 +474,7 @@
             }
           }
       },
-        "ProductResponse":{
+      "ProductRequest":{
           "required":["productName"],
           "properties":{
             "productName":{
@@ -441,7 +486,55 @@
             "productDescription":{
               "type":"string"
             },
-            "productCategoryId": {
+            "categories": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "bestSeller":{
+              "type":"boolean"
+            },
+            "hotSale":{
+              "type":"number"
+            },
+            "productQuantity":{
+              "type":"number"
+            },
+            "socialMedia": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "url": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+      },
+      "ProductResponse":{
+          "required":["productName"],
+          "properties":{
+            "productName":{
+              "type":"string"
+            },
+            "productImageUrl":{
+              "type":"string"
+            },
+            "productDescription":{
+              "type":"string"
+            },
+            "categories": {
               "type": "array",
               "items": {
                 "type": "object",

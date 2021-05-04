@@ -4,9 +4,10 @@ const ProductService = require('../service/product.service')
 const productController = {
     getAllProducts: async (req,res)=>{
         try {
-            const products = await Product.find()
-                                    .populate('category')
+            const products = await Product.find({})
+                                    .select('-__v')
                                     .populate('user','-password -__v -date')
+                                    .populate('category','-__v')
             if(!products) return res.status(404).json({error:"products not found"});
             return res.status(200).json({
                 status:200,
@@ -14,14 +15,15 @@ const productController = {
                 data:products
             });
         } catch (error) {
-            console.log(error)
             return res.status(500).send(error);
         }
-
     },
     getProductById: async (req,res) => {
         try {
-            const product = await Product.findById(req.params.productId);
+            const product = await Product.findById(req.params.productId)
+                                        .select('-__v')
+                                        .populate('user','-password -__v -date')
+                                        .populate('category','-__v');
             if(!product) return res.status(404).json({error:"products not found"});
             return res.status(200).json({
                 status:200,
@@ -39,7 +41,11 @@ const productController = {
         try {
             const { value, error } = ProductService.validateRequestBody(req.body);
             if(error) return res.status(400).json({error});
-            let product = new Product(value);
+            const newValue = {
+                ...value,
+                user:req.user.id
+            }
+            let product = new Product(newValue);
             product = await product.save();
             if(!product) return res.status(400).json({error:"Unable to create user"})
             return res.status(200).json({
