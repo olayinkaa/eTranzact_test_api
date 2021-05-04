@@ -6,7 +6,7 @@ module.exports = {
             name: Joi.string().required(),
             description: Joi.string().required(),
         })
-        const { value, error } = Joi.validate(requestBody, schema,{ abortEarly: false });
+        const { value, error } = Joi.validate(requestBody, schema,{ abortEarly: false ,allowUnknown: true });
         if (error && error.details) {
           return { error };
         }

@@ -4,7 +4,7 @@ const ProductService = require('../service/product.service')
 const productController = {
     getAllProducts: async (req,res)=>{
         try {
-            const products = await Product.find({})
+            const products = await Product.find({user:req.user.id})
                                     .select('-__v')
                                     .populate('user','-password -__v -date')
                                     .populate('category','-__v')

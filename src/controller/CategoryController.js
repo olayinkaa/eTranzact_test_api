@@ -1,10 +1,10 @@
-const  Category = require('../model/Category.js');
+const  Category = require('../model/Category');
 const CategoryService = require('../service/category.service.js');
 
 const categoryController = {
     getAllCategory: async (req,res) => {
         try {
-            const categories = await Category.find({}).select('-__v');
+            const categories = await Category.find({user:req.user.id}).select('-__v -user');
             if(!categories) return res.status(404).json({error:"categories not found"});
             return res.status(200).json({
                 status:200,
@@ -37,7 +37,11 @@ const categoryController = {
         try {
             const { value, error } = CategoryService.validateRequestBody(req.body);
             if(error) return res.status(400).json({error})
-            let category = new Category(value);
+            const newValue = {
+                ...value,
+                user:req.user.id
+            }
+            let category = new Category(newValue);
             category = await category.save();
             return res.status(200).json({
                 status:200,

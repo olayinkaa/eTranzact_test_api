@@ -5,9 +5,9 @@ const auth = require('../middlewares/auth.js');
 const Router = express.Router();
 
 Router.get('/',auth,categoryController.getAllCategory);
-Router.get('/:catId',categoryController.getCategoryById);
-Router.post('/',categoryController.addCategory);
-Router.put('/:catId',categoryController.updateCategory);
+Router.get('/:catId',auth,categoryController.getCategoryById);
+Router.post('/',auth,categoryController.addCategory);
+Router.put('/:catId',auth,categoryController.updateCategory);
 Router.delete('/:catId',auth,categoryController.removeCategoryById);
 
 

@@ -5,7 +5,7 @@ const restRouter = require('./src/route/index.js');
 const passport = require('passport');
 const {configJWTStrategy} = require('./src/middlewares/passport-jwt.js');
 const swaggerUi = require('swagger-ui-express');
-const swaggerDocument = require("./src/config/swagger.json")
+const swaggerDocument = require("./src/config/swagger.json");
 const logger = require('morgan');
 // import swaggerDocument from "./src/config/swagger.json";
 
@@ -16,6 +16,8 @@ connectDB();
 
 const app = express();
 app.use(express.json({ extended: false}));
+
+require('./prod')(app);
 
 if (process.env.NODE_ENV === 'development') {
   app.use(logger('dev'));

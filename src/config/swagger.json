@@ -9,6 +9,11 @@
         "url": "https://opensource.org/licenses/MIT"
       }
     },
+    "contact": {
+      "name": "Ibrahim Olayinka",
+      "url": "hr@etranzactng.com",
+      "email": "olayinka.ibrahim@etranzactng.com"
+    },
     "host": "localhost:12000",
     "basePath": "/api/etz",
     "tags": [
@@ -29,25 +34,6 @@
     "consumes": ["application/json"],
     "produces": ["application/json"],
     "paths":{
-      "/user":{
-        "get":{
-          "tags": ["UserController"],
-          "summary": "API Endpoint to find all Users",
-          "description" : "Find all Users from the database",
-          "produces" : ["application/json"],
-          "responses":{
-            "200":{
-              "description" : "Query all Users",
-              "schema": {
-                "type":"array",
-                "items":{
-                  "$ref" : "#/definitions/User"
-                }
-              }
-            }
-          }
-        }
-      },
       "/user/auth":{
         "get":{
           "tags": ["UserController"],
@@ -161,6 +147,13 @@
           "produces" : ["application/json"],
           "parameters":[
             {
+              "name": "authorization",
+              "description": "Access token to authorize the user",
+              "in": "header",
+              "type": "string",
+              "required": true
+            },
+            {
               "name": "Category",
               "description": "Create category",
               "in": "body",
@@ -186,16 +179,9 @@
              "name" : "id",
              "in": "path",
              "required": "true",
-             "description": "id of the product category",
+             "description": "id of the category",
              "type": "string"
 
-          },
-          {
-           "name": "authorization",
-           "description": "Access token to authorize the user",
-           "in": "header",
-           "type": "string",
-           "required": true
           }
        ],
        "get":{
@@ -252,7 +238,15 @@
         }
       },
       "/product":{
-        
+        "parameters":[
+          {
+            "name": "authorization",
+            "description": "Access token to authorize the user",
+            "in": "header",
+            "type": "string",
+            "required": true
+           }
+        ],
         "get":{
           "tags": ["ProductController"],
           "summary": "API endpoint to retrieve products",
@@ -273,6 +267,7 @@
           "description" : "Create product category into the database",
           "produces" : ["application/json"],
           "parameters":[
+
             {
               "name": "Product",
               "description": "Create Product",
@@ -292,6 +287,31 @@
               }
           }
         }
+      },
+      "/product/{id}":{
+        "parameters":[
+          {
+            "name": "authorization",
+            "description": "Access token to authorize the user",
+            "in": "header",
+            "type": "string",
+            "required": true
+           }
+        ],
+        "get":{
+          "tags": ["ProductController"],
+          "summary": "API Endpoint to find product by ID",
+          "description" : "Find one product from the database",
+          "produces" : ["application/json"],
+          "responses":{
+            "200":{
+              "description" : "Successfully found",
+              "schema": {
+              "$ref" : "#definitions/ProductResponse"
+              }
+            }
+          }
+       }
       }
     },
     "definitions":{
