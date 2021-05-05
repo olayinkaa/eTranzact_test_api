@@ -2,13 +2,14 @@ const express = require('express');
 const connectDB = require('./src/config/db.js');
 const dotenv = require("dotenv");
 const restRouter = require('./src/route/index.js');
+const winston = require('winston')
 const passport = require('passport');
 const {configJWTStrategy} = require('./src/middlewares/passport-jwt.js');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require("./src/config/swagger.json");
+const serverError = require('./src/middlewares/error')
 const logger = require('morgan');
 var cors = require('cors')
-
 dotenv.config();
 const PORT = process.env.PORT;
 
@@ -25,6 +26,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 app.use(passport.initialize()); // req.user
 configJWTStrategy();
+require('./src/startup/logging')
 app.use('/api/etz',restRouter);
 app.use(
     '/api-docs',
@@ -33,6 +35,7 @@ app.use(
       explorer: true,
     })
   );
+app.use(serverError)
 
-
-app.listen(PORT, ()=> console.log(`server is running on port ${PORT}`));
+// app.listen(PORT, ()=> debug.info(`server is running on port ${PORT}`));
+app.listen(PORT, ()=> winston.info(`server is running on port ${PORT}`));

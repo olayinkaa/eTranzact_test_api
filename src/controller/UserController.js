@@ -49,11 +49,11 @@ const userController = {
             }
             const user = await User.findOne({ email: value.email });
             if (!user) {
-              return res.status(401).json({ err: 'unauthorized' });
+              return res.status(401).json({ error: 'unauthorized' });
             }
             const authenticated = UserService.comparePassword(value.password, user.password);
             if (!authenticated) {
-              return res.status(401).json({ err: 'unauthorized' });
+              return res.status(401).json({ error: 'unauthorized' });
             }
 
             const payload = { 

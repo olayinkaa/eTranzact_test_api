@@ -1,12 +1,12 @@
 const jwt = require('jsonwebtoken');
-const dotenv = require('dotenv')
-
-dotenv.config()
+require('dotenv').config()
 
 const auth = (req, res, next) => {
   // Get token from header
   // const token = req.header('x-auth-token');
-  const token = req.header('Authorization');
+  const authHeader = req.header('Authorization');
+  const bearerToken = authHeader.split(' ');
+  const token = bearerToken[1]
   // Check if not token
   if (!token) {
     return res.status(401).json({ message: 'No token, authorization denied' });
@@ -18,7 +18,7 @@ const auth = (req, res, next) => {
     next();
 
   } catch (err) {
-    res.status(401).json({ msg: 'Token is not valid' });
+    res.status(401).json({ message: 'Token is not valid' });
   }
 };
 
