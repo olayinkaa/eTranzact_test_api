@@ -8,7 +8,6 @@ const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require("./src/config/swagger.json");
 const logger = require('morgan');
 var cors = require('cors')
-// import swaggerDocument from "./src/config/swagger.json";
 
 dotenv.config();
 const PORT = process.env.PORT;

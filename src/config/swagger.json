@@ -14,7 +14,7 @@
       "url": "hr@etranzactng.com",
       "email": "olayinka.ibrahim@etranzactng.com"
     },
-    "host": ["etranzact-test-api.herokuapp.com"],
+    "host": ["localhost:12000"],
     "basePath": "/api/etz",
     "tags": [
       {
