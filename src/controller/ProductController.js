@@ -98,11 +98,30 @@ const productController = {
             return res.status(500).send(error);
         }
     },
-    updateProductCategory: async() => {
+    updateProductCategory: async (req,res) => {
         try {
-            
+            const {productId} = req.params;
+            const { value, error } = ProductService.validateRequestBody(req.body);
+            if(error) return res.status(400).json({error});
+            const newValue = {
+                ...value,
+                user:req.user.id
+            }
+            const product = await Product.findOneAndUpdate(
+                {_id:productId},
+                newValue,
+                {new:true}
+                )
+            if(!product) return res.status(400).json({error:"Could not find product"})
+            return res.status(200).json({
+                status:200,
+                message:"successfully processed",
+                data:product
+            })
+
         } catch (error) {
-            
+            console.log(error)
+            return res.status(500).send(error);
         }
     },
     removeProductById: async (req,res)=> {

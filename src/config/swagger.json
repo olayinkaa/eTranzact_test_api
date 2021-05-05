@@ -275,7 +275,7 @@
 
             {
               "name": "Product",
-              "description": "Create Product",
+              "description": "Product request payload",
               "in": "body",
               "required": "true",
               "schema" : {
@@ -325,7 +325,31 @@
             }
           }
        },
-       "delete":{
+       "put":{
+          "tags": ["ProductController"],
+          "summary": "API Endpoint for product Category",
+          "description" : "Update the existing product in database",
+          "parameters":[
+            {
+              "name": "Product",
+              "description": "Product request payload",
+              "in": "body",
+              "schema" : {
+                "$ref" : "#definitions/ProductRequest"
+              }
+            }
+          ],
+          "produces" : ["application/json"],
+          "responses":{
+            "200":{
+              "description" : "Product has Updated",
+              "schema": {
+              "$ref" : "#definitions/ProductResponse"
+              }
+            }
+          }
+      },
+      "delete":{
           "tags": ["ProductController"],
           "summary": "API Endpoint to delete product",
           "description" : "Delete product from the database",
