@@ -58,8 +58,11 @@ const userController = {
 
             const payload = { 
                 id: user._id,
+                name:user.name,
                 email:user.email,
-                username:user.username 
+                gender:user.gender,
+                username:user.username,
+                contactInfo:user.contactInfo
             }
             const token = jwt.issue(payload, '1d'); // 1 day
             return res.status(200).json({ 

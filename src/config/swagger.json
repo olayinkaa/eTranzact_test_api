@@ -14,7 +14,7 @@
       "url": "hr@etranzactng.com",
       "email": "olayinka.ibrahim@etranzactng.com"
     },
-    "host": "etranzact-test-api.herokuapp.com",
+    "host": ["localhost:12000"],
     "basePath": "/api/etz",
     "tags": [
       {
@@ -30,35 +30,10 @@
         "description": "API for users in the system"
       }
     ],
-    "schemes": ["https","http"],
+    "schemes": ["http"],
     "consumes": ["application/json"],
     "produces": ["application/json"],
     "paths":{
-      "/user/auth":{
-        "get":{
-          "tags": ["UserController"],
-          "summary": "API Endpoint to find auth User",
-          "description" : "Find Authenticated User from the database",
-          "produces" : ["application/json"],
-          "parameters":[
-            {
-              "name": "authorization",
-              "description": "Access token to authorize the user",
-              "in": "header",
-              "type": "string",
-              "required": false
-            }
-          ],
-          "responses":{
-            "200":{
-              "description" : "Authenticated User Details",
-              "schema": {
-               "$ref" : "#/definitions/UserResponse"
-              }
-            }
-          }
-        }
-      },
       "/user/login":{
         "post":{
           "tags": ["UserController"],
@@ -94,7 +69,7 @@
           "parameters":[
             {
               "name": "User",
-              "description": "User login",
+              "description": "User Registration",
               "in": "body",
               "required": "true",
               "schema" : {
@@ -182,7 +157,14 @@
              "description": "id of the category",
              "type": "string"
 
-          }
+          },
+          {
+            "name": "authorization",
+            "description": "Access token to authorize the user",
+            "in": "header",
+            "type": "string",
+            "required": true
+           }
        ],
        "get":{
           "tags": ["CategoryController"],
@@ -252,6 +234,29 @@
           "summary": "API endpoint to retrieve products",
           "description" : "GET all products from the database",
           "produces" : ["application/json"],
+          "parameters":[
+            {
+              "name": "limit",
+              "description": "Pass the page size",
+              "in": "query",
+              "type": "number",
+              "default":0
+            },
+            {
+              "name": "page",
+              "description": "Pass the page number",
+              "in": "query",
+              "type": "number",
+              "default":1
+            },
+            {
+              "name": "sort",
+              "description": "Sort the product list by ['createdAt' in ascending order,'-createdAt' in descending]",
+              "in": "query",
+              "type": "string",
+              "enum":["name","createdAt","-createdAt"]
+            }
+          ],
           "responses":{
             "200":{
               "description" : "Retrieve all products",
@@ -296,7 +301,15 @@
             "in": "header",
             "type": "string",
             "required": true
-           }
+           },
+          {
+              "name" : "id",
+              "in": "path",
+              "required": "true",
+              "description": "id of the product",
+              "type": "string"
+
+          }
         ],
         "get":{
           "tags": ["ProductController"],
@@ -311,7 +324,21 @@
               }
             }
           }
-       }
+       },
+       "delete":{
+          "tags": ["ProductController"],
+          "summary": "API Endpoint to delete product",
+          "description" : "Delete product from the database",
+          "produces" : ["application/json"],
+          "responses":{
+            "200":{
+              "description" : "product has deleted",
+              "schema": {
+              "$ref" : "#definitions/ProductResponse"
+              }
+            }
+          }
+        }
       }
     },
     "definitions":{
@@ -455,7 +482,7 @@
             "productDescription":{
               "type":"string"
             },
-            "categories": {
+            "category": {
               "type": "array",
               "items": {
                 "type": "string",
@@ -470,6 +497,9 @@
               "type":"boolean"
             },
             "hotSale":{
+              "type":"number"
+            },
+            "productPrice":{
               "type":"number"
             },
             "productQuantity":{
@@ -506,7 +536,7 @@
             "productDescription":{
               "type":"string"
             },
-            "categories": {
+            "category": {
               "type": "array",
               "items": {
                 "type": "string",
@@ -521,6 +551,9 @@
               "type":"boolean"
             },
             "hotSale":{
+              "type":"number"
+            },
+            "productPrice":{
               "type":"number"
             },
             "productQuantity":{
@@ -554,7 +587,7 @@
             "productDescription":{
               "type":"string"
             },
-            "categories": {
+            "category": {
               "type": "array",
               "items": {
                 "type": "object",

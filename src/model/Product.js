@@ -31,12 +31,16 @@ const ProductSchema = new Schema({
         default: 0
     },
     productQuantity:Number,
+    productPrice:{
+        type:Number,
+        required:true
+    },
     user:{
         type:Schema.Types.ObjectId,
         ref: 'user'
     },
     socialMedia:[socialMedia]
 
-});
+},{timestamps: true});
 
 module.exports = model('product',ProductSchema);

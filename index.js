@@ -7,7 +7,7 @@ const {configJWTStrategy} = require('./src/middlewares/passport-jwt.js');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require("./src/config/swagger.json");
 const logger = require('morgan');
-// var cors = require('cors')
+var cors = require('cors')
 // import swaggerDocument from "./src/config/swagger.json";
 
 dotenv.config();
@@ -17,7 +17,7 @@ connectDB();
 
 const app = express();
 app.use(express.json({ extended: false}));
-// app.use(cors());
+app.use(cors());
 
 require('./prod')(app);
 
