@@ -81,7 +81,7 @@ const productController = {
     addProduct: async (req,res) => {
         try {
             const { value, error } = ProductService.validateRequestBody(req.body);
-            if(error) return res.status(400).json({error});
+            if(error) return res.status(400).json(Object.assign({},...(error.details.map(item=>({[item.path[0]]:item.message})))))
             const newValue = {
                 ...value,
                 user:req.user.id
@@ -130,7 +130,9 @@ const productController = {
     removeProductById: async (req,res)=> {
         try {
             const { productId } = req.params;
-            const product = await Product.findOneAndRemove({ _id: productId });
+            let product = await Product.findById(productId)
+            if((product.user).toString()!==req.user.id) return res.status(403).json({error:"You are not authorize."})
+            product = await Product.findOneAndRemove({ _id: productId });
             if (!product) {
               return res.status(404).json({ err: 'could not find product' });
             }

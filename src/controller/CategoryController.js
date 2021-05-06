@@ -36,7 +36,7 @@ const categoryController = {
     addCategory : async (req,res) => {
         try {
             const { value, error } = CategoryService.validateRequestBody(req.body);
-            if(error) return res.status(400).json({error})
+            if(error) return res.status(400).json(Object.assign({},...(error.details.map(item=>({[item.path[0]]:item.message})))))
             const newValue = {
                 ...value,
                 user:req.user.id
