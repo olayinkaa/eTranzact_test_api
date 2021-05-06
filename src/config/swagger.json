@@ -373,7 +373,44 @@
       }
     },
     "definitions":{
+          "User":{
+            "properties":{
+                "_id":{
+                  "type":"string"
+                },
+                "name":{
+                  "type":"string"
+                },
+                "username":{
+                  "type":"string"
+                },
+                "email":{
+                  "type":"string"
+                },
+                "password":{
+                  "type":"string"
+                },
+                "gender":{
+                  "type":"string"
+                },
+                "contactInfo": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "address": {
+                        "type": "string"
+                      },
+                      "phoneNumber": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+            }
+        },
         "UserRequest":{
+            "required": ["name","username", "email", "password","gender","contactInfo"],
             "properties":{
                 "name":{
                   "type":"string"
@@ -439,45 +476,7 @@
                 }
             }
         },
-        "User":{
-            "required": ["name","username", "email", "password","gender"],
-            "properties":{
-                "_id":{
-                  "type":"string"
-                },
-                "name":{
-                  "type":"string"
-                },
-                "username":{
-                  "type":"string"
-                },
-                "email":{
-                  "type":"string"
-                },
-                "password":{
-                  "type":"string"
-                },
-                "gender":{
-                  "type":"string"
-                },
-                "contactInfo": {
-                  "type": "array",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "address": {
-                        "type": "string"
-                      },
-                      "phoneNumber": {
-                        "type": "string"
-                      }
-                    }
-                  }
-                }
-            }
-        },
         "Category":{
-            "required":["name"],
             "properties":{
               "_id":{
                 "type":"string"
@@ -502,7 +501,6 @@
             }
         },
         "Product":{
-          "required":["productName"],
           "properties":{
             "productName":{
               "type":"string"
@@ -556,7 +554,7 @@
           }
       },
       "ProductRequest":{
-          "required":["productName"],
+          "required":["productName","productImageUrl","productPrice","productQuantity","category"],
           "properties":{
             "productName":{
               "type":"string"
@@ -663,7 +661,7 @@
       },
       "UserLogin":{
         "required":["email","password"],
-        "type": "string",
+        "type": "object",
         "properties":{
           "email":{
             "type":"string"
@@ -675,6 +673,9 @@
       },
       "UserLoginResponse":{
         "properties":{
+          "success":{
+            "type":"boolean"
+          },
           "token": {
             "type" : "string"
           }
