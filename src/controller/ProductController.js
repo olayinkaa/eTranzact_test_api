@@ -101,13 +101,16 @@ const productController = {
     updateProductCategory: async (req,res) => {
         try {
             const {productId} = req.params;
+            let product = await Product.findById(productId)
             const { value, error } = ProductService.validateRequestBody(req.body);
             if(error) return res.status(400).json({error});
             const newValue = {
                 ...value,
                 user:req.user.id
             }
-            const product = await Product.findOneAndUpdate(
+            console.log(product)
+            if((product.user).toString()!==req.user.id) return res.status(403).json({error:"You are not authorize."})
+            product = await Product.findOneAndUpdate(
                 {_id:productId},
                 newValue,
                 {new:true}

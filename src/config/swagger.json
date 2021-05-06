@@ -30,9 +30,16 @@
         "description": "API for users in the system"
       }
     ],
-    "schemes": ["https"],
+    "schemes": ["http"],
     "consumes": ["application/json"],
     "produces": ["application/json"],
+    "securityDefinitions":{
+        "Bearer":{
+          "type": "apiKey",
+          "name": "Authorization",
+          "in":"header"
+        }
+    },
     "paths":{
       "/user/login":{
         "post":{

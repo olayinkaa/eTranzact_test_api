@@ -29,7 +29,9 @@ const userController = {
                 ...value,
                 password:encryptedPass
             }
-            let user = await new User(newValue);
+            let user = await  User.findOne({email:value.email})
+            if(user) return res.status(400).json({error:"email already taken"})
+            user = new User(newValue);
             user = await user.save();
             if(!user) return res.status(400).json({error:"Unable to create user"})
             return res.status(200).json({
