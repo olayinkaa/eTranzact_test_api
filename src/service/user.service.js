@@ -17,7 +17,7 @@ module.exports = {
             )
             //
         })
-        const { value, error } = Joi.validate(requestBody, schema,{ abortEarly: false });
+        const { value, error } = Joi.validate(requestBody, schema,{ abortEarly: false, allowUnknown: true });
         if (error && error.details) {
           return { error };
         }
@@ -28,7 +28,7 @@ module.exports = {
           email: Joi.string().email().required(),
           password: Joi.string().required(),
         });
-        const { value, error } = Joi.validate(body, schema);
+        const { value, error } = Joi.validate(body, schema,{ abortEarly: false ,allowUnknown: true });
         if (error && error.details) return { error }
         return { value };
     },

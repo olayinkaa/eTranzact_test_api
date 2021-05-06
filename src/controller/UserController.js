@@ -23,7 +23,7 @@ const userController = {
     registerUser: async (req,res) => {
         try {
             const { value, error } = UserService.validateRequestBody(req.body);
-            if(error) return res.status(400).json({error});
+            if(error) return res.status(400).json(Object.assign({},...(error.details.map(item=>({[item.path[0]]:item.message})))))
             const encryptedPass = await UserService.encryptPassword(value.password);
             const newValue = {
                 ...value,
@@ -46,9 +46,7 @@ const userController = {
     login : async (req,res) => {
         try {
             const { value, error } = UserService.validateLogin(req.body);
-            if (error) {
-              return res.status(400).json(error);
-            }
+            if(error) return res.status(400).json(Object.assign({},...(error.details.map(item=>({[item.path[0]]:item.message})))))
             const user = await User.findOne({ email: value.email });
             if (!user) {
               return res.status(401).json({ error: 'unauthorized' });
