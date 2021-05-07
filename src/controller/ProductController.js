@@ -103,12 +103,11 @@ const productController = {
             const {productId} = req.params;
             let product = await Product.findById(productId)
             const { value, error } = ProductService.validateRequestBody(req.body);
-            if(error) return res.status(400).json({error});
+            if(error) return res.status(400).json(Object.assign({},...(error.details.map(item=>({[item.path[0]]:item.message})))))
             const newValue = {
                 ...value,
                 user:req.user.id
             }
-            console.log(product)
             if((product.user).toString()!==req.user.id) return res.status(403).json({error:"You are not authorize."})
             product = await Product.findOneAndUpdate(
                 {_id:productId},
