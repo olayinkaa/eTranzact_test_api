@@ -81,6 +81,7 @@ const productController = {
     addProduct: async (req,res) => {
         try {
             const { value, error } = ProductService.validateRequestBody(req.body);
+            // res.send(error)
             if(error) return res.status(400).json(Object.assign({},...(error.details.map(item=>({[item.path[0]]:item.message})))))
             const newValue = {
                 ...value,
