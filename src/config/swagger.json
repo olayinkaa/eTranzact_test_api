@@ -30,7 +30,7 @@
         "description": "API for users in the system"
       }
     ],
-    "schemes": ["https"],
+    "schemes": ["https","http"],
     "consumes": ["application/json"],
     "produces": ["application/json"],
     "paths":{
@@ -219,19 +219,10 @@
           }
         }
       },
-      "/product":{
-        "parameters":[
-          {
-            "name": "authorization",
-            "description": "Access token to authorize the user",
-            "in": "header",
-            "type": "string",
-            "required": true
-           }
-        ],
+      "/product/all":{
         "get":{
           "tags": ["ProductController"],
-          "summary": "API endpoint to retrieve products",
+          "summary": "API endpoint to retrieve all products",
           "description" : "GET all products from the database",
           "produces" : ["application/json"],
           "parameters":[
@@ -264,7 +255,55 @@
                "$ref" : "#/definitions/ProductResponse"
               }
             }
+          }
         }
+      },
+      "/product":{
+        "parameters":[
+          {
+            "name": "authorization",
+            "description": "Access token to authorize the user",
+            "in": "header",
+            "type": "string",
+            "required": true
+           }
+        ],
+        "get":{
+          "tags": ["ProductController"],
+          "summary": "API endpoint to retrieve Authenticated user products",
+          "description" : "GET all Authenticated user products from the database",
+          "produces" : ["application/json"],
+          "parameters":[
+            {
+              "name": "limit",
+              "description": "Pass the page size",
+              "in": "query",
+              "type": "number",
+              "default":0
+            },
+            {
+              "name": "page",
+              "description": "Pass the page number",
+              "in": "query",
+              "type": "number",
+              "default":1
+            },
+            {
+              "name": "sort",
+              "description": "Sort the product list by ['createdAt' in ascending order,'-createdAt' in descending]",
+              "in": "query",
+              "type": "string",
+              "enum":["name","createdAt","-createdAt"]
+            }
+          ],
+          "responses":{
+            "200":{
+              "description" : "Retrieve authenticated user products",
+              "schema": {
+               "$ref" : "#/definitions/ProductResponse"
+              }
+            }
+          }
         },
         "post":{
           "tags": ["ProductController"],
@@ -295,13 +334,6 @@
       },
       "/product/{id}":{
         "parameters":[
-          {
-            "name": "authorization",
-            "description": "Access token to authorize the user",
-            "in": "header",
-            "type": "string",
-            "required": true
-           },
           {
               "name" : "id",
               "in": "path",
