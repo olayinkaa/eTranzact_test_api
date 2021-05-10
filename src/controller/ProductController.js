@@ -34,7 +34,32 @@ class APIfeatures {
 }
 
 const productController = {
-    getAllProducts: async (req,res)=>{
+    getAllProducts: async (req,res)=> {
+        try {
+            const features = new APIfeatures(Product.find({}),req.query)
+                                            .filtering()
+                                            .sorting()
+                                            .paginating();
+            const products = await features.query
+                                            .select({
+                                                user:0,
+                                                socialMedia:0,
+                                                __v:0,
+                                                createdAt:0,
+                                                updatedAt:0
+                                            })
+            if(!products) return res.status(404).json({error:"products not found"});
+            return res.status(200).json({
+                status:200,
+                message:"successfully processed",
+                data:products,
+                totalElements:products.length,
+            });
+        } catch (error) {
+            return res.status(500).send(error);
+        }
+    },
+    getAuthProducts: async (req,res)=>{
         try {
             const features = new APIfeatures(Product.find({user:req.user.id}),req.query)
                                             .filtering()
@@ -44,10 +69,6 @@ const productController = {
                                     .select('-__v')
                                     .populate('category','-__v')
                                     .populate('user','-password -__v -date')
-            // const products = await Product.find({user:req.user.id})
-            //                         .select('-__v')
-                                    // .populate('user','-password -__v -date')
-                                    // .populate('category','-__v')
             if(!products) return res.status(404).json({error:"products not found"});
             return res.status(200).json({
                 status:200,
