@@ -1,13 +1,15 @@
 {
-  "openapi": "3.0.0",
-  "version": "1.0.1",
-  "title": "Sample Pet Store App",
-  "description": "This is a sample server for a pet store.",
-  "termsOfService": "http://example.com/terms/",
-  "contact": {
-    "name": "API Support",
-    "url": "http://www.example.com/support",
-    "email": "support@example.com"
+  "openapi": "3.0.3",
+  "info":{
+    "version": "0.1.9",
+    "title": "ETRANZACT TEST API",
+    "description": "Simple API for frontend role test",
+    "termsOfService": "http://example.com/terms/",
+    "contact": {
+      "name": "Ibrahim Olayinka",
+      "url": "https://www.etranzact.com",
+      "email": "olayinka.ibrahim@etranzactng.com"
+    }
   },
   "license": {
     "name": "Apache 2.0",
@@ -15,75 +17,93 @@
   },
   "servers": [
     {
-      "url": "https://development.gigantic-server.com/v1",
-      "description": "Development server"
+      "url": "http://localhost:12000/api/etz",
+      "description": "Local server",
+      "variables":{
+        "environment":{
+          "default":"",
+          "enum":[
+            ""
+          ]
+        }
+      }
     },
     {
-      "url": "https://staging.gigantic-server.com/v1",
+      "url": "https://etranzact-test-api.herokuapp.com/api/etz",
       "description": "Staging server"
+    }
+  ],
+  "tags": [
+    {
+      "name": "CategoryController",
+      "description": "API for categories in the system"
     },
     {
-      "url": "https://api.gigantic-server.com/v1",
-      "description": "Production server"
-    }
-  ],
-  "tags":[
+      "name": "ProductController",
+      "description": "API for products in the system"
+    },
     {
-      "name": "pet",
-      "description": "Pets operations"
+      "name": "UserController",
+      "description": "API for users in the system"
     }
   ],
-  "path":{
-
+  "paths":{
+      "/category":{
+        "get":{
+          "tags": ["CategoryController"],
+          "summary": "API endpoint to retrieve product category",
+          "description" : "Find product categories from the database",
+          "operationId": "getCategory",
+          "responses":{
+            "200":{
+              "description" : "Successfully Processed",
+              "content":{
+                "application/json":{
+                  "schema": {
+                    "type":"array",
+                    "items":{
+                      "$ref" : "#/components/schemas/CategoryResponse"
+                    }
+                  }
+                }
+              }
+            },
+            "400":{
+              "description" : "Bad request"
+            }
+          }
+        }
+      }
   },
   "components": {
     "schemas": {
       "Category": {
-        "type": "object",
         "properties": {
-          "id": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      },
+      "CategoryResponse": {
+        "properties": {
+          "_id": {
             "type": "integer",
             "format": "int64"
           },
           "name": {
             "type": "string"
-          }
-        }
-      },
-      "Tag": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64"
           },
-          "name": {
+          "description": {
             "type": "string"
           }
         }
       }
     },
     "parameters": {
-      "skipParam": {
-        "name": "skip",
-        "in": "query",
-        "description": "number of items to skip",
-        "required": true,
-        "schema": {
-          "type": "integer",
-          "format": "int32"
-        }
-      },
-      "limitParam": {
-        "name": "limit",
-        "in": "query",
-        "description": "max records to return",
-        "required": true,
-        "schema" : {
-          "type": "integer",
-          "format": "int32"
-        }
-      }
+     
     }
   }
   

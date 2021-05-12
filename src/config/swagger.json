@@ -14,7 +14,7 @@
       "url": "hr@etranzactng.com",
       "email": "olayinka.ibrahim@etranzactng.com"
     },
-    "host": ["etranzact-test-api.herokuapp.com"],
+    "host": ["localhost:12000"],
     "basePath": "/api/etz",
     "tags": [
       {
@@ -30,7 +30,7 @@
         "description": "API for users in the system"
       }
     ],
-    "schemes": ["https","http"],
+    "schemes": ["http","https"],
     "consumes": ["application/json"],
     "produces": ["application/json"],
     "paths":{
@@ -435,7 +435,7 @@
             }
         },
         "UserRequest":{
-            "required": ["name","username", "email", "password","gender","contactInfo"],
+            "required": ["name","username", "email", "password","gender"],
             "properties":{
                 "name":{
                   "type":"string"
