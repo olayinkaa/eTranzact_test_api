@@ -359,7 +359,7 @@
        },
        "put":{
           "tags": ["ProductController"],
-          "summary": "API Endpoint for product Category",
+          "summary": "API Endpoint to update existing product",
           "description" : "Update the existing product in database",
           "parameters":[
             {

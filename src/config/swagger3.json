@@ -1,36 +1,28 @@
 {
   "openapi": "3.0.3",
   "info":{
-    "version": "0.1.9",
+    "version": "1.0.1",
     "title": "ETRANZACT TEST API",
-    "description": "Simple API for frontend role test",
+    "description": "FRONTEND DEVELOPER ROLE",
     "termsOfService": "http://example.com/terms/",
     "contact": {
       "name": "Ibrahim Olayinka",
       "url": "https://www.etranzact.com",
       "email": "olayinka.ibrahim@etranzactng.com"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
     }
-  },
-  "license": {
-    "name": "Apache 2.0",
-    "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
   },
   "servers": [
     {
-      "url": "http://localhost:12000/api/etz",
-      "description": "Local server",
-      "variables":{
-        "environment":{
-          "default":"",
-          "enum":[
-            ""
-          ]
-        }
-      }
-    },
-    {
       "url": "https://etranzact-test-api.herokuapp.com/api/etz",
       "description": "Staging server"
+    },
+    {
+      "url": "http://localhost:12000/api/etz",
+      "description": "Local server"
     }
   ],
   "tags": [
@@ -51,9 +43,14 @@
       "/category":{
         "get":{
           "tags": ["CategoryController"],
-          "summary": "API endpoint to retrieve product category",
+          "summary": "API endpoint to retrieve category",
           "description" : "Find product categories from the database",
           "operationId": "getCategory",
+          "security": [
+            {
+               "bearerAuth": []
+            }
+          ],
           "responses":{
             "200":{
               "description" : "Successfully Processed",
@@ -72,12 +69,521 @@
               "description" : "Bad request"
             }
           }
+        },
+        "post":{
+          "tags": ["CategoryController"],
+          "summary": "API endpoint to create new category",
+          "description" : "Create product category into the database",
+          "operationId": "postCategory",
+          "security": [
+            {
+               "bearerAuth": []
+            }
+          ],
+          "requestBody":{
+            "required":true,
+            "description" : "Create category into the database",
+            "content":{
+              "application/json":{
+                "schema": {
+                  "$ref" : "#/components/schemas/CategoryRequest"
+                }
+              }
+            }
+          },
+          "responses":{
+            "200":{
+              "description" : "Successfully Processed",
+              "content":{
+                "application/json":{
+                  "schema": {
+                    "$ref" : "#/components/schemas/CategoryResponse"
+                  }
+                }
+              }
+            },
+            "400":{
+              "description" : "Bad request"
+            }
+          }
+        }
+      },
+      "/category/{id}":{
+        "get":{
+          "tags": ["CategoryController"],
+          "summary": "API Endpoint to find single category",
+          "description" : "Find one category from the database",
+          "operationId": "getCategoryById",
+          "security": [
+            {
+               "bearerAuth": []
+            }
+          ],
+          "parameters":[
+            {
+              "name" : "id",
+              "in": "path",
+              "required": "true",
+              "description": "id ",
+              "schema":{
+                "type": "string"
+              }
+            }
+          ],
+          "responses":{
+            "200":{
+              "description" : "Successfully Processed",
+              "content":{
+                "application/json":{
+                  "schema": {
+                    "$ref" : "#/components/schemas/CategoryResponse"
+                  }
+                }
+              }
+            },
+            "400":{
+              "description" : "Bad request"
+            }
+          }
+        },
+        "delete":{
+          "tags": ["CategoryController"],
+          "summary": "API Endpoint to delete the category",
+          "description" : "Delete category from the database",
+          "operationId": "deleteCategoryById",
+          "security": [
+            {
+               "bearerAuth": []
+            }
+          ],
+          "parameters":[
+            {
+              "name" : "id",
+              "in": "path",
+              "required": "true",
+              "description": "id ",
+              "schema":{
+                "type": "string"
+              }
+            }
+          ],
+          "responses":{
+            "200":{
+              "description" : "Successfully Processed",
+              "content":{
+                "application/json":{
+                  "schema": {
+                    "properties":{
+                      "message":{
+                        "type":"string"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "400":{
+              "description" : "Bad request"
+            }
+          }
+        },
+        "put":{
+          "tags": ["CategoryController"],
+          "summary": "API Endpoint to update Category",
+          "description" : "Update the existing Category in database",
+          "operationId": "updateCategoryById",
+          "security": [
+            {
+               "bearerAuth": []
+            }
+          ],
+          "parameters":[
+            {
+              "name" : "id",
+              "in": "path",
+              "required": "true",
+              "description": "id ",
+              "schema":{
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody":{
+            "required":true,
+            "description" : "Category params to update the category",
+            "content":{
+              "application/json":{
+                "schema": {
+                  "$ref" : "#/components/schemas/CategoryRequest"
+                }
+              }
+            }
+          },
+          "responses":{
+            "200":{
+              "description" : "Successfully Processed",
+              "content":{
+                "application/json":{
+                  "schema": {
+                    "$ref" : "#/components/schemas/CategoryResponse"
+                  }
+                }
+              }
+            },
+            "400":{
+              "description" : "Bad request"
+            }
+          }
+        }
+      },
+      "/product/all":{
+        "get":{
+          "tags": ["ProductController"],
+          "summary": "API endpoint to retrieve all products",
+          "description" : "GET all products from the database",
+          "operationId": "getAllProducts",
+          "security": [
+            {
+               "bearerAuth": []
+            }
+          ],
+          "responses":{
+            "200":{
+              "description" : "Successfully Processed",
+              "content":{
+                "application/json":{
+                  "schema": {
+                    "$ref" : "#/components/schemas/ProductResponse"
+                  }
+                }
+              }
+            },
+            "400":{
+              "description" : "Bad request"
+            }
+          }
+        }
+      },
+      "/product":{
+        "get":{
+          "tags": ["ProductController"],
+          "summary": "API endpoint to retrieve Authenticated user products",
+          "description" : "GET all Authenticated user products from the database",
+          "operationId": "getAuthUserProducts",
+          "security": [
+            {
+               "bearerAuth": []
+            }
+          ],
+          "parameters":[
+            {
+              "name": "limit",
+              "description": "Pass the page size",
+              "in": "query",
+              "schema":{
+                "type": "number",
+                "default":0
+              }
+            },
+            {
+              "name": "page",
+              "description": "Pass the page number",
+              "in": "query",
+              "schema":{
+                "type": "number",
+                "default":1
+              }
+            },
+            {
+              "name": "sort",
+              "description": "Sort the product list by ['createdAt' in ascending order,'-createdAt' in descending]",
+              "in": "query",
+              "schema":{
+                "type": "string",
+                "enum":["name","createdAt","-createdAt"]
+              }
+            }
+          ],
+          "responses":{
+            "200":{
+              "description" : "Successfully Processed",
+              "content":{
+                "application/json":{
+                  "schema": {
+                    "$ref" : "#/components/schemas/CategoryResponse"
+                  }
+                }
+              }
+            },
+            "400":{
+              "description" : "Bad request"
+            }
+          }
+        },
+        "post":{
+          "tags": ["ProductController"],
+          "summary": "API endpoint to create new product category",
+          "description" : "Create product category into the database",
+          "operationId": "PostProduct",
+          "security": [
+            {
+               "bearerAuth": []
+            }
+          ],
+          "requestBody":{
+            "required":true,
+            "description" : "Product request payload",
+            "content":{
+              "application/json":{
+                "schema": {
+                  "$ref" : "#/components/schemas/ProductRequest"
+                }
+              }
+            }
+          },
+          "responses":{
+            "200":{
+              "description" : "Successfully Processed",
+              "content":{
+                "application/json":{
+                  "schema": {
+                    "$ref" : "#/components/schemas/ProductResponse"
+                  }
+                }
+              }
+            },
+            "400":{
+              "description" : "Bad request"
+            }
+          }
+        }
+      },
+      "/product/{productId}":{
+        "get":{
+          "tags": ["ProductController"],
+          "summary": "API Endpoint to find product by ID",
+          "description" : "Find one product from the database",
+          "operationId": "getProductById",
+          "security": [
+            {
+               "bearerAuth": []
+            }
+          ],
+          "parameters":[
+            {
+              "name" : "productId",
+              "in": "path",
+              "required": "true",
+              "description": "productId ",
+              "schema":{
+                "type": "string"
+              }
+            }
+          ],
+          "responses":{
+            "200":{
+              "description" : "Successfully Processed",
+              "content":{
+                "application/json":{
+                  "schema": {
+                    "$ref" : "#/components/schemas/ProductResponse"
+                  }
+                }
+              }
+            },
+            "400":{
+              "description" : "Bad request"
+            }
+          }
+        },
+        "delete":{
+          "tags": ["ProductController"],
+          "summary": "API Endpoint to delete product",
+          "description" : "Delete product from the database",
+          "operationId": "deleteProductById",
+          "security": [
+            {
+               "bearerAuth": []
+            }
+          ],
+          "parameters":[
+            {
+              "name" : "productId",
+              "in": "path",
+              "required": "true",
+              "description": "productId ",
+              "schema":{
+                "type": "string"
+              }
+            }
+          ],
+          "responses":{
+            "200":{
+              "description" : "product successfully deleted",
+              "content":{
+                "application/json":{
+                  "schema": {
+                    "$ref" : "#/components/schemas/ProductResponse"
+                  }
+                }
+              }
+            },
+            "400":{
+              "description" : "Bad request"
+            }
+          }
+        },
+        "put":{
+          "tags": ["ProductController"],
+          "summary": "API Endpoint to update existing product",
+          "description" : "Update the existing product in database",
+          "operationId": "updateProduct",
+          "security": [
+            {
+               "bearerAuth": []
+            }
+          ],
+          "parameters":[
+            {
+              "name" : "productId",
+              "in": "path",
+              "required": "true",
+              "description": "productId ",
+              "schema":{
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody":{
+            "required":true,
+            "description" : "Product update request payload",
+            "content":{
+              "application/json":{
+                "schema": {
+                  "$ref" : "#/components/schemas/ProductRequest"
+                }
+              }
+            }
+          },
+          "responses":{
+            "200":{
+              "description" : "Successfully Processed",
+              "content":{
+                "application/json":{
+                  "schema": {
+                    "$ref" : "#/components/schemas/ProductResponse"
+                  }
+                }
+              }
+            },
+            "400":{
+              "description" : "Bad request"
+            }
+          }
+        }
+      },
+      "/user/login":{
+        "post":{
+          "tags": ["UserController"],
+          "summary": "API Endpoint to get Token",
+          "description" : "Retrieve access token",
+          "operationId": "userLogin",
+          "security": [
+            {
+               "bearerAuth": []
+            }
+          ],
+          "requestBody":{
+            "required":true,
+            "description" : "User Authentication Credential",
+            "content":{
+              "application/json":{
+                "schema": {
+                  "$ref" : "#/components/schemas/UserLogin"
+                }
+              }
+            }
+          },
+          "responses":{
+            "200":{
+              "description" : "Successfully Processed",
+              "content":{
+                "application/json":{
+                  "schema": {
+                    "$ref" : "#/components/schemas/UserLoginResponse"
+                  }
+                }
+              }
+            },
+            "400":{
+              "description" : "Bad request"
+            }
+          }
+        }
+      },
+      "/user/register":{
+        "post":{
+          "tags": ["UserController"],
+          "summary": "API endpoint to register new user",
+          "description" : "Register new system user",
+          "operationId": "userRegister",
+          "security": [
+            {
+               "bearerAuth": []
+            }
+          ],
+          "requestBody":{
+            "required":true,
+            "description" : "User Registration",
+            "content":{
+              "application/json":{
+                "schema": {
+                  "$ref" : "#/components/schemas/UserRequest"
+                }
+              }
+            }
+          },
+          "responses":{
+            "200":{
+              "description" : "Successfully Processed",
+              "content":{
+                "application/json":{
+                  "schema": {
+                    "$ref" : "#/components/schemas/UserResponse"
+                  }
+                }
+              }
+            },
+            "400":{
+              "description" : "Bad request"
+            }
+          }
         }
       }
   },
   "components": {
+    "securitySchemes":{
+      "bearerAuth":{
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
     "schemas": {
       "Category": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      },
+      "CategoryRequest": {
+        "required":["name","description"],
+        "type": "object",
         "properties": {
           "name": {
             "type": "string"
@@ -88,16 +594,313 @@
         }
       },
       "CategoryResponse": {
+        "type": "object",
         "properties": {
-          "_id": {
+          "status": {
             "type": "integer",
-            "format": "int64"
+            "default":200
           },
-          "name": {
-            "type": "string"
+          "message": {
+            "type": "string",
+            "default":"Successfully Processed"
           },
-          "description": {
-            "type": "string"
+          "data":{
+            "type":"object",
+            "properties":{
+              "_id": {
+                "type": "string",
+                "format": "int64"
+              },
+              "name": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              },
+              "user": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "Product":{
+        "properties":{
+          "productName":{
+            "type":"string"
+          },
+          "productImageUrl":{
+            "type":"string"
+          },
+          "productDescription":{
+            "type":"string"
+          },
+          "category": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "properties": {
+                "name": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "bestSeller":{
+            "type":"boolean"
+          },
+          "hotSale":{
+            "type":"number"
+          },
+          "productPrice":{
+            "type":"number"
+          },
+          "productQuantity":{
+            "type":"number"
+          },
+          "socialMedia": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "url": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "user":{
+            "type":"string"
+          }
+        }
+      },
+      "ProductRequest":{
+        "required":["productName","productImageUrl","productPrice","productQuantity","category"],
+        "properties":{
+          "productName":{
+            "type":"string"
+          },
+          "productImageUrl":{
+            "type":"string"
+          },
+          "productDescription":{
+            "type":"string"
+          },
+          "category": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "properties": {
+                "name": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "bestSeller":{
+            "type":"boolean"
+          },
+          "hotSale":{
+            "type":"number"
+          },
+          "productPrice":{
+            "type":"number"
+          },
+          "productQuantity":{
+            "type":"number"
+          },
+          "socialMedia": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "url": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "ProductResponse":{
+        "properties":{
+          "productName":{
+            "type":"string"
+          },
+          "productImageUrl":{
+            "type":"string"
+          },
+          "productDescription":{
+            "type":"string"
+          },
+          "category": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "bestSeller":{
+            "type":"boolean"
+          },
+          "hotSale":{
+            "type":"number"
+          },
+          "productQuantity":{
+            "type":"number"
+          },
+          "socialMedia": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "url": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "user": {
+            "type": "object",
+            "$ref" : "#/components/schemas/UserResponse"
+          }
+        }
+      },
+      "User":{
+        "properties":{
+            "_id":{
+              "type":"string"
+            },
+            "name":{
+              "type":"string"
+            },
+            "username":{
+              "type":"string"
+            },
+            "email":{
+              "type":"string"
+            },
+            "password":{
+              "type":"string"
+            },
+            "gender":{
+              "type":"string"
+            },
+            "contactInfo": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "address": {
+                    "type": "string"
+                  },
+                  "phoneNumber": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+        }
+      },
+      "UserRequest":{
+        "required": ["name","username", "email", "password","gender"],
+        "properties":{
+            "name":{
+              "type":"string"
+            },
+            "username":{
+              "type":"string"
+            },
+            "email":{
+              "type":"string"
+            },
+            "password":{
+              "type":"string"
+            },
+            "gender":{
+              "type":"string"
+            },
+            "contactInfo": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "address": {
+                    "type": "string"
+                  },
+                  "phoneNumber": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+        }
+    },
+    "UserResponse":{
+        "properties":{
+            "_id":{
+              "type":"string"
+            },
+            "name":{
+              "type":"string"
+            },
+            "username":{
+              "type":"string"
+            },
+            "email":{
+              "type":"string"
+            },
+            "gender":{
+              "type":"string"
+            },
+            "contactInfo": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "address": {
+                    "type": "string"
+                  },
+                  "phoneNumber": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+        }
+      },
+      "UserLogin":{
+        "required":["email","password"],
+        "type": "object",
+        "properties":{
+          "email":{
+            "type":"string"
+          },
+          "password":{
+            "type":"string"
+          }
+        }
+      },
+      "UserLoginResponse":{
+        "properties":{
+          "success":{
+            "type":"boolean"
+          },
+          "token": {
+            "type" : "string"
           }
         }
       }

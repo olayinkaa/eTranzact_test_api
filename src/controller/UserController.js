@@ -8,8 +8,10 @@ const userController = {
             const users = await User.find().select({
                 password:0,
                 __v:0,
+                date:0
                 // contactInfo:{$name}
-            });
+            })
+            .sort('-createdAt')
             if(!users) return res.status(404).json({error:"categories not found"});
             return res.status(200).json({
                 status:200,
